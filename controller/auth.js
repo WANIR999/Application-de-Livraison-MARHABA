@@ -3,9 +3,11 @@ const bcrypt=require('bcryptjs')
 const localstorage = require('local-storage');
 const jwt=require('jsonwebtoken')
 const dotenv=require('dotenv')
+const confirmation=require('../router/middelwares/veirfy_email')
 
 const register=  (req,res)=>{
     const {body}=req
+    localstorage('email',body.email)
     User.findOne({email:body.email}).then(e=>{
         if(e){
             res.render('errorview',{data:{msg:'email existe already',statu:'??',class:"bg-warning"}})
@@ -13,7 +15,12 @@ const register=  (req,res)=>{
            bcrypt.hash(body.password,10).then(hash=> {
             body.password=hash
             User.create({...body}).then(user=>{
-                res.redirect('/api/auth/loginform')
+                confirmation.main()
+                res.render('errorview',{data:{
+                    msg:"please check your email",
+                    statu:'confirmation',
+                    class:'bg-success'
+                }})
                }).catch(()=>{
                 res.render('errorview',{data:{msg:'not added',statu:'??'}})
                })
@@ -26,7 +33,7 @@ const login=  (req,res)=>{
     const {body}=req
     User.findOne({email:body.email}).then(e=>{
         if(e){
-            const user=e
+           if(e.confirmation===true){ const user=e
             bcrypt.compare(body.password,e.password).then(e=>{
                 if(e){
                    const token= jwt.sign({user},process.env.SECRET,{expiresIn:'30d'})
@@ -38,7 +45,13 @@ const login=  (req,res)=>{
                 }else{
                     res.render('errorview',{data:{msg:'invalid password',statu:'??',class:"bg-danger"}})
                 }
-            });
+            });}else{
+                res.render('errorview',{data:{
+                    msg:"please check your email and comfirm your account first",
+                    statu:'account not confirmed',
+                    class:'bg-secondary'
+                }})
+            }
         }else{
             res.render('errorview',{data:{msg:'invalid email',statu:'??',class:"bg-danger"}})
         }
