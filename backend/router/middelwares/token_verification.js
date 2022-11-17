@@ -11,21 +11,21 @@ function verify(access){
             if(access.includes(req.email.email.role)){
                 next()
             }else{
-              res.json({data:{msg:'anauthorised',statu:401}})
+              res.json({errmsg:'anauthorised',statu:401})
             }
        }else{
-        res.json({data:{msg:'anauthenticated',statu:402}})
+        res.json({errmsg:'anauthenticated',statu:402})
        }   
     
      }else{
-      res.json({data:{msg:'anauthenticated',statu:402}})
+      res.json({errmsg:'anauthenticated',statu:402})
        }   
   }
 }
 function postverif(req,res,next){
-  if(localstorage('token')) throw Error('you are loge in!!')
+  if(localstorage('token')) throw Error('you are loged in!!')
   next()
-    }
+}
 
 
 

@@ -11,6 +11,7 @@ const Userschema= new mongoose.Schema({
     },
     role:{
         type:String,
+        default:'client'
        
     },
     password:{
