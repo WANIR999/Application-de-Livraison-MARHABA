@@ -1,0 +1,57 @@
+.App {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 90vh;
+  }
+  .fill{
+    height: 100vh !important;
+  }
+  ::-webkit-scrollbar {
+    display: none;
+}
+  .auth{
+    background-color: rgba(20, 150, 198, 0.692);
+  }
+  
+  form{
+      background-color: rgba(255, 255, 255, 0.447);
+      padding: 0px 60px;
+      border-radius: 10px;
+      width: 40%;
+  }
+
+  .bgf{
+    background-color: rgba(147, 141, 141, 0.372) !important;
+  }
+  
+  h1{
+      color: rgb(77, 1, 77);
+      text-align: center;
+      padding-top: 10px;
+  }
+  
+  button{
+      width: 100%;
+      height: 50px;
+      padding: 10px;
+      border: none;
+      background-color: rgb(38, 104, 218);
+      color: white;
+      border-radius: 10px;
+      font-weight: bold;
+      font-size: 18px;
+      cursor: pointer;
+      margin-top: 15px;
+      margin-bottom: 30px;
+  }
+.mfsize{
+   font-size: 70%;
+}
+  .tbl{
+    height: 80% !important;
+    width: 70% !important;
+    overflow-y: scroll !important;
+    border: 1px solid gray;
+    border-radius: 20px;
+  }
