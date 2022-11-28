@@ -1,4 +1,4 @@
-# Application-de-Livraison-MARHABA
+# Application-de-Livraison-MARHABA 
 # How to dockerize your application
 
 Docker is a software platform that allows you to build, test, and deploy applications quickly.
@@ -103,3 +103,115 @@ docker run -d --name front_end -v frontend:/app --network marhaba_frontend -p 30
 --name:to name a container\
 -v:to create a volume\
 -t:to tag an image\
+
+# How to test your application using the unit test
+# testing your application using jest et supertest
+## Installing the dependencies:
+```Bash
+npm i jest supertest
+```
+## define the command that run the test on the packa.json
+```python
+{
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.3",
+    "ejs": "^3.1.8",
+    "express": "^4.18.2",
+    "handy-storage": "^2.1.6",
+    "jest": "^29.3.1",
+    "jsonwebtoken": "^8.5.1",
+    "local-storage": "^2.0.0",
+    "mongoose": "^6.6.5",
+    "node-localstorage": "^2.2.1",
+    "nodemailer": "^6.8.0",
+    "nodemon": "^2.0.20",
+    "supertest": "^6.3.1"
+  },
+  # we just added the bellow section to the file
+  "scripts": {
+  # due to this part e can use the command npm test to start our test
+    "test": "jest"
+  }
+}
+```
+## Create a file with the extension .test.js and start coding the testing script in it
+## Create a describe function for the login endpoints:
+```python
+# Require the supertest dependencie and the index file
+const req = require('supertest');
+const app = require('./index');
+describe("login tests", () => {
+# test the login endpoint with a valid fields
+  test("test for valid data",async ()=>{
+  # create a const (object) we will test the endpoint with this object
+    const body={
+        email:"mohammedwanir67@gmail.com",
+        password:"@@@@1234A"
+    }
+    # send the body to the login endpoint by using supertest
+    const tst=await req(app).post("/api/auth/login").send(body)
+    # declaring the value that we expect it as a response
+    expect(tst.statusCode).toBe(200)
+  })
+  # test the login endpoint with an anvalid fields
+  test("test for invalid password",async ()=>{
+    const body={
+        email:"mohammedwanir67@gmail.com",
+        password:"@@@@1234Ae"
+    }
+    const tst=await req(app).post("/api/auth/login").send(body)
+    expect(tst.statusCode).toBe(400)
+  })
+  
+  test("test for invalid email",async ()=>{
+    const body={
+        email:"mohammedwanir67@gmail.coma",
+        password:"@@@@1234A"
+    }
+    const tst=await req(app).post("/api/auth/login").send(body)
+    expect(tst.statusCode).toBe(400)
+  })
+  # test the login endpoint with an uncomfirmed account
+  test("test for uncomfirmed account",async ()=>{
+    const body={
+        email:"mohammed@gmail.com",
+        password:"@@@@1234A"
+    }
+    const tst=await req(app).post("/api/auth/login").send(body)
+    expect(tst.statusCode).toBe(400)
+  })
+   
+    })
+```
+## Add the describe function of the register endpoint:
+```python
+ describe("register tests", () => {
+        test("test for existed email",async ()=>{
+          const body={
+              name:"mohammed",
+              email:"mohammedwanir67@gmail.com",
+              password:"@@@@1234A"
+          }
+          const tst=await req(app).post("/api/auth/register").send(body)
+          expect(tst.statusCode).toBe(400)
+        })
+        test("test for valid email",async ()=>{
+          const body={
+              name:"mohammed",
+              email:"mohammedina@gmail.com",
+              password:"@@@@1234A"
+          }
+          const tst=await req(app).post("/api/auth/register").send(body)
+          expect(tst.statusCode).toBe(200)
+        })
+
+          })
+```
+## Run the test
+```Bash
+npm test
+```
+
+
