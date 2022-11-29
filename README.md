@@ -95,7 +95,7 @@ docker build . -t frontend
 
 ## run the frontend container 
 ```bash
-docker run -d --name front_end -v frontend:/app --network marhaba_frontend -p 3000:3000 frontend
+docker run -d --name front_end -v frontend:/front --network marhaba_frontend -p 3000:3000 frontend
 ```
 -we create and run a container named front_end and based on the front image, we run it on the marhaba_frontend network and we specifie that we will use the port 3000 as an entrypoint.
 ## NB:
